@@ -1,0 +1,805 @@
+<Window
+    x:Class="SensoryStudio.WinUI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:SensoryStudio.WinUI.Models"
+    mc:Ignorable="d"
+    Title="Sensory Studio">
+
+    <Grid x:Name="RootGrid" Background="{ThemeResource ShellBackgroundBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="760" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ContentMargin.Margin" Value="72,42,72,24" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ContentMargin.Margin" Value="24,28,24,20" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid
+            x:Name="ContentMargin"
+            MaxWidth="920"
+            Margin="72,42,72,24"
+            HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                x:Name="EyebrowText"
+                Text="Home"
+                Style="{StaticResource BodyStrongTextBlockStyle}"
+                Foreground="{ThemeResource ShellTextPrimaryBrush}"
+                AutomationProperties.HeadingLevel="Level1" />
+            <TextBlock
+                x:Name="PageTitleText"
+                Grid.Row="1"
+                Text="Choose an experience that feels right for this moment."
+                Style="{StaticResource SubtitleTextBlockStyle}"
+                Foreground="{ThemeResource ShellTextPrimaryBrush}"
+                TextWrapping="Wrap"
+                Margin="0,4,0,20" />
+
+            <Grid x:Name="FilterPanel" Grid.Row="2" Margin="0,0,0,20">
+                <Border
+                    HorizontalAlignment="Left"
+                    Background="{ThemeResource ShellSubtleFillBrush}"
+                    CornerRadius="22"
+                    Padding="8,5">
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <RadioButton
+                            Style="{StaticResource ShellFilterButtonStyle}"
+                            GroupName="CategoryFilter"
+                            Content="All"
+                            Tag="All"
+                            IsChecked="True"
+                            Checked="Filter_Checked" />
+                        <RadioButton
+                            Style="{StaticResource ShellFilterButtonStyle}"
+                            GroupName="CategoryFilter"
+                            Content="Focus"
+                            Tag="Focus"
+                            Checked="Filter_Checked" />
+                        <RadioButton
+                            Style="{StaticResource ShellFilterButtonStyle}"
+                            GroupName="CategoryFilter"
+                            Content="Take a break"
+                            Tag="TakeABreak"
+                            Checked="Filter_Checked" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto">
+                <GridView
+                    x:Name="ExperienceGrid"
+                    ItemsSource="{x:Bind VisibleExperiences, Mode=OneWay}"
+                    IsItemClickEnabled="True"
+                    ItemClick="ExperienceGrid_ItemClick"
+                    SelectionMode="None"
+                    Padding="8,8,8,12"
+                    HorizontalContentAlignment="Stretch">
+                    <GridView.Resources>
+                        <CornerRadius x:Key="GridViewItemCornerRadius">24</CornerRadius>
+                        <StaticResource x:Key="GridViewItemBackgroundPointerOver" ResourceKey="SubtleFillColorTransparentBrush" />
+                        <StaticResource x:Key="GridViewItemBackgroundPressed" ResourceKey="SubtleFillColorTransparentBrush" />
+                        <StaticResource x:Key="GridViewItemBackgroundSelected" ResourceKey="SubtleFillColorTransparentBrush" />
+                        <StaticResource x:Key="GridViewItemBackgroundSelectedPointerOver" ResourceKey="SubtleFillColorTransparentBrush" />
+                        <StaticResource x:Key="GridViewItemBackgroundSelectedPressed" ResourceKey="SubtleFillColorTransparentBrush" />
+                        <StaticResource x:Key="GridViewItemPointerOverBorderBrush" ResourceKey="ShellSelectedBrush" />
+                        <StaticResource x:Key="GridViewItemSelectedBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+                        <StaticResource x:Key="GridViewItemSelectedPointerOverBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+                        <StaticResource x:Key="GridViewItemSelectedPressedBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+                        <StaticResource x:Key="GridViewItemSelectedInnerBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+                    </GridView.Resources>
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="3" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="0,0,16,20" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ExperienceCard">
+                            <Border
+                                Width="270"
+                                MinHeight="256"
+                                Background="{ThemeResource ShellCardBrush}"
+                                BorderBrush="{ThemeResource ShellDividerBrush}"
+                                BorderThickness="1"
+                                CornerRadius="24"
+                                BackgroundSizing="InnerBorderEdge"
+                                CenterPoint="135,128,0"
+                                Translation="0,0,8"
+                                PointerEntered="ExperienceCard_PointerEntered"
+                                PointerExited="ExperienceCard_PointerExited"
+                                PointerCanceled="ExperienceCard_PointerExited">
+                                <Border.ScaleTransition>
+                                    <Vector3Transition Duration="0:0:0.16" />
+                                </Border.ScaleTransition>
+                                <Border.TranslationTransition>
+                                    <Vector3Transition Duration="0:0:0.16" />
+                                </Border.TranslationTransition>
+                                <Border.Shadow>
+                                    <ThemeShadow />
+                                </Border.Shadow>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="168" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Border CornerRadius="23,23,0,0">
+                                        <Image
+                                            Source="{x:Bind ThumbnailUri, Mode=OneTime}"
+                                            Stretch="UniformToFill" />
+                                    </Border>
+                                    <Border
+                                        Grid.Row="1"
+                                        Background="{ThemeResource ShellCardBrush}"
+                                        CornerRadius="20"
+                                        Margin="0,-12,0,0"
+                                        Padding="16,12,16,16">
+                                        <StackPanel Spacing="6">
+                                            <Grid ColumnSpacing="8">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Text="{x:Bind DisplayName, Mode=OneTime}"
+                                                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                    Foreground="{ThemeResource ShellTextPrimaryBrush}"
+                                                    VerticalAlignment="Center" />
+                                                <ComboBox
+                                                    Grid.Column="1"
+                                                    MinWidth="64"
+                                                    MinHeight="32"
+                                                    Padding="8,4"
+                                                    Background="{ThemeResource ShellSubtleFillBrush}"
+                                                    BorderThickness="0"
+                                                    CornerRadius="16"
+                                                    SelectedValue="{x:Bind SelectedDurationTag, Mode=TwoWay}"
+                                                    SelectedValuePath="Tag"
+                                                    AutomationProperties.Name="Session duration">
+                                                    <ComboBox.Resources>
+                                                        <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="Transparent" />
+                                                        <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver" Color="Transparent" />
+                                                        <SolidColorBrush x:Key="ComboBoxBorderBrushPressed" Color="Transparent" />
+                                                        <SolidColorBrush x:Key="ComboBoxBorderBrushDisabled" Color="Transparent" />
+                                                    </ComboBox.Resources>
+                                                    <ComboBoxItem Content="∞" Tag="0" />
+                                                    <ComboBoxItem Content="1 min" Tag="1" />
+                                                    <ComboBoxItem Content="3 min" Tag="3" />
+                                                    <ComboBoxItem Content="5 min" Tag="5" />
+                                                </ComboBox>
+                                            </Grid>
+                                            <TextBlock
+                                                Text="{x:Bind Description, Mode=OneTime}"
+                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                Foreground="{ThemeResource ShellTextSecondaryBrush}"
+                                                TextWrapping="Wrap"
+                                                MaxLines="3" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </ScrollViewer>
+        </Grid>
+
+        <Border
+            x:Name="LaunchError"
+            Visibility="Collapsed"
+            Background="{ThemeResource ShellCardBrush}"
+            BorderBrush="{ThemeResource ShellDividerBrush}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource OverlayCornerRadius}"
+            Padding="16,12"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Margin="24">
+            <TextBlock
+                x:Name="LaunchErrorText"
+                Foreground="{ThemeResource ShellTextPrimaryBrush}"
+                TextWrapping="Wrap" />
+        </Border>
+
+        <Grid
+            x:Name="ExperienceHost"
+            Background="{ThemeResource ShellBackgroundBrush}"
+            Visibility="Collapsed">
+            <Border Background="{ThemeResource ShellBackgroundBrush}">
+                <ContentPresenter x:Name="ExperiencePresenter" />
+            </Border>
+
+            <Border
+                x:Name="ExperienceControlsPill"
+                Canvas.ZIndex="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Margin="16"
+                Padding="0"
+                Background="{ThemeResource ShellSurfaceBrush}"
+                BorderBrush="{ThemeResource ShellDividerBrush}"
+                BorderThickness="1"
+                CornerRadius="28"
+                BackgroundSizing="InnerBorderEdge"
+                Translation="0,0,32">
+                <Border.Resources>
+                    <Style x:Key="ExperiencePillButtonStyle" TargetType="Button">
+                        <Setter Property="Foreground" Value="{ThemeResource ShellTextPrimaryBrush}" />
+                        <Setter Property="MinWidth" Value="40" />
+                        <Setter Property="MinHeight" Value="40" />
+                        <Setter Property="Padding" Value="8" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal" />
+                                                <VisualState x:Name="PointerOver">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.Background" Value="{ThemeResource ShellSubtleFillBrush}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Pressed">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.Opacity" Value="0.64" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Disabled">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.Opacity" Value="0.4" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                            <VisualStateGroup x:Name="FocusStates">
+                                                <VisualState x:Name="Unfocused" />
+                                                <VisualState x:Name="Focused">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.BorderBrush" Value="{ThemeResource ShellSelectedBrush}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="PointerFocused" />
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <Border
+                                            x:Name="Root"
+                                            MinWidth="{TemplateBinding MinWidth}"
+                                            MinHeight="{TemplateBinding MinHeight}"
+                                            Padding="{TemplateBinding Padding}"
+                                            Background="Transparent"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="1"
+                                            CornerRadius="{StaticResource OverlayCornerRadius}">
+                                            <ContentPresenter
+                                                Content="{TemplateBinding Content}"
+                                                Foreground="{TemplateBinding Foreground}"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center" />
+                                        </Border>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style x:Key="ExperiencePillToggleButtonStyle" TargetType="ToggleButton">
+                        <Setter Property="Foreground" Value="{ThemeResource ShellTextPrimaryBrush}" />
+                        <Setter Property="MinWidth" Value="40" />
+                        <Setter Property="MinHeight" Value="40" />
+                        <Setter Property="Padding" Value="8" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Grid>
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal" />
+                                                <VisualState x:Name="PointerOver">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.Background" Value="{ThemeResource ShellSubtleFillBrush}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Pressed">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.Opacity" Value="0.64" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Disabled">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.Opacity" Value="0.4" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                            <VisualStateGroup x:Name="CheckStates">
+                                                <VisualState x:Name="Unchecked" />
+                                                <VisualState x:Name="Checked">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="CheckedIndicator.Visibility" Value="Visible" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Indeterminate" />
+                                            </VisualStateGroup>
+                                            <VisualStateGroup x:Name="FocusStates">
+                                                <VisualState x:Name="Unfocused" />
+                                                <VisualState x:Name="Focused">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.BorderBrush" Value="{ThemeResource ShellSelectedBrush}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="PointerFocused" />
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <Border
+                                            x:Name="Root"
+                                            MinWidth="{TemplateBinding MinWidth}"
+                                            MinHeight="{TemplateBinding MinHeight}"
+                                            Padding="{TemplateBinding Padding}"
+                                            Background="Transparent"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="1"
+                                            CornerRadius="{StaticResource OverlayCornerRadius}">
+                                            <ContentPresenter
+                                                Content="{TemplateBinding Content}"
+                                                Foreground="{TemplateBinding Foreground}"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center" />
+                                        </Border>
+                                        <Border
+                                            x:Name="CheckedIndicator"
+                                            Width="24"
+                                            Height="3"
+                                            Margin="0,0,0,2"
+                                            VerticalAlignment="Bottom"
+                                            Background="{ThemeResource ShellSelectedBrush}"
+                                            CornerRadius="2"
+                                            Visibility="Collapsed" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Border.Resources>
+                <Border.Shadow>
+                    <ThemeShadow />
+                </Border.Shadow>
+                <Grid>
+                    <Border Padding="12,8">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                    <Button
+                        Style="{StaticResource ExperiencePillButtonStyle}"
+                        AutomationProperties.Name="Back to experiences"
+                        ToolTipService.ToolTip="Back"
+                        Click="CloseExperience_Click">
+                        <FontIcon Glyph="&#xE72B;" FontSize="14" />
+                    </Button>
+                    <TextBlock
+                        x:Name="ExperienceTitleText"
+                        MaxWidth="160"
+                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                        Foreground="{ThemeResource ShellTextPrimaryBrush}"
+                        TextTrimming="CharacterEllipsis"
+                        VerticalAlignment="Center" />
+                    <Button
+                        x:Name="ExperienceTimerTrack"
+                        MinWidth="40"
+                        Padding="8"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="{ThemeResource ShellTextPrimaryBrush}"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="Session time remaining"
+                        ToolTipService.ToolTip="Choose session duration"
+                        Click="ExperienceTimerTrack_Click">
+                        <Button.Flyout>
+                            <MenuFlyout x:Name="ExperienceDurationComboBox" Placement="Bottom">
+                                <ToggleMenuFlyoutItem Text="∞" Tag="0" Click="ExperienceDurationItem_Click" />
+                                <ToggleMenuFlyoutItem Text="1 min" Tag="1" Click="ExperienceDurationItem_Click" />
+                                <ToggleMenuFlyoutItem Text="3 min" Tag="3" IsChecked="True" Click="ExperienceDurationItem_Click" />
+                                <ToggleMenuFlyoutItem Text="5 min" Tag="5" Click="ExperienceDurationItem_Click" />
+                            </MenuFlyout>
+                        </Button.Flyout>
+                        <TextBlock
+                            x:Name="ExperienceDurationText"
+                            Text="3m"
+                            Style="{StaticResource BodyStrongTextBlockStyle}" />
+                    </Button>
+                    <Button
+                        x:Name="ExperiencePauseButton"
+                        Style="{StaticResource ExperiencePillButtonStyle}"
+                        AutomationProperties.Name="Pause or resume"
+                        ToolTipService.ToolTip="Pause"
+                        Click="ExperiencePauseButton_Click">
+                        <FontIcon x:Name="ExperiencePauseIcon" Glyph="&#xE769;" FontSize="14" />
+                    </Button>
+                    <Button
+                        Style="{StaticResource ExperiencePillButtonStyle}"
+                        AutomationProperties.Name="Open in a desktop window"
+                        ToolTipService.ToolTip="Pop out to desktop"
+                        Click="PopOutExperience_Click">
+                        <FontIcon Glyph="&#xE8A7;" FontSize="14" />
+                    </Button>
+                    <Border
+                        Width="1"
+                        Height="32"
+                        Margin="4,0"
+                        Background="{ThemeResource ShellDividerBrush}" />
+                    <Button
+                        x:Name="ExperienceSettingsButton"
+                        Style="{StaticResource ExperiencePillButtonStyle}"
+                        AutomationProperties.Name="Open experience settings"
+                        ToolTipService.ToolTip="Settings">
+                        <Button.Flyout>
+                            <Flyout Placement="Bottom">
+                                <Flyout.FlyoutPresenterStyle>
+                                    <Style TargetType="FlyoutPresenter">
+                                        <Setter Property="MinWidth" Value="0" />
+                                        <Setter Property="Width" Value="168" />
+                                        <Setter Property="Padding" Value="12" />
+                                        <Setter Property="CornerRadius" Value="24" />
+                                    </Style>
+                                </Flyout.FlyoutPresenterStyle>
+                                <StackPanel Spacing="8">
+                                    <StackPanel Orientation="Horizontal" Spacing="32">
+                                        <TextBlock
+                                            Width="72"
+                                            Text="Sound"
+                                            VerticalAlignment="Center" />
+                                        <ToggleSwitch
+                                            x:Name="ExperienceSoundToggle"
+                                            MinWidth="0"
+                                            Width="40"
+                                            OnContent=""
+                                            OffContent=""
+                                            Toggled="ExperienceSoundToggle_Toggled" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="32">
+                                        <TextBlock
+                                            Width="72"
+                                            Text="Haptics"
+                                            VerticalAlignment="Center" />
+                                        <ToggleSwitch
+                                            x:Name="ExperienceHapticsToggle"
+                                            MinWidth="0"
+                                            Width="40"
+                                            OnContent=""
+                                            OffContent=""
+                                            Toggled="ExperienceHapticsToggle_Toggled" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                        <FontIcon Glyph="&#xE713;" FontSize="14" />
+                    </Button>
+                    </StackPanel>
+                    </Border>
+                    <Rectangle
+                        x:Name="ExperiencePillCountdownStroke"
+                        Margin="1"
+                        RadiusX="27"
+                        RadiusY="27"
+                        Stroke="{ThemeResource ShellSelectedBrush}"
+                        StrokeThickness="2"
+                        StrokeDashCap="Round"
+                        IsHitTestVisible="False" />
+                </Grid>
+            </Border>
+
+            <Border
+                x:Name="GardenTools"
+                Canvas.ZIndex="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="24"
+                Padding="8,4"
+                Background="{ThemeResource GardenSandSurfaceBrush}"
+                BorderBrush="{ThemeResource GardenSandBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="28"
+                BackgroundSizing="InnerBorderEdge"
+                Visibility="Collapsed">
+                <Border.Resources>
+                    <Style x:Key="GardenBottomPillButtonStyle" TargetType="Button">
+                        <Setter Property="Foreground" Value="{ThemeResource GardenSandForegroundBrush}" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
+                        <Setter Property="MinWidth" Value="40" />
+                        <Setter Property="MinHeight" Value="40" />
+                        <Setter Property="Padding" Value="8" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal" />
+                                                <VisualState x:Name="PointerOver">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.Background" Value="{ThemeResource GardenSandSubtleFillBrush}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Pressed">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.Opacity" Value="0.64" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Disabled">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.Opacity" Value="0.4" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                            <VisualStateGroup x:Name="FocusStates">
+                                                <VisualState x:Name="Unfocused" />
+                                                <VisualState x:Name="Focused">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.BorderBrush" Value="{ThemeResource GardenSandForegroundBrush}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="PointerFocused" />
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <Border
+                                            x:Name="Root"
+                                            MinWidth="{TemplateBinding MinWidth}"
+                                            MinHeight="{TemplateBinding MinHeight}"
+                                            Padding="{TemplateBinding Padding}"
+                                            Background="Transparent"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="{TemplateBinding CornerRadius}">
+                                            <ContentPresenter
+                                                Content="{TemplateBinding Content}"
+                                                Foreground="{TemplateBinding Foreground}"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center" />
+                                        </Border>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style x:Key="GardenBottomFlyoutPresenterStyle" TargetType="FlyoutPresenter">
+                        <Setter Property="CornerRadius" Value="24" />
+                    </Style>
+                </Border.Resources>
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="16">
+                    <Button
+                        Style="{StaticResource GardenBottomPillButtonStyle}"
+                        AutomationProperties.Name="Sand settings"
+                        ToolTipService.ToolTip="Sand">
+                        <Button.Flyout>
+                            <Flyout
+                                Placement="Top"
+                                FlyoutPresenterStyle="{StaticResource GardenBottomFlyoutPresenterStyle}">
+                                <StackPanel MinWidth="240" Padding="8" Spacing="12">
+                                    <TextBlock
+                                        Text="Sand grain"
+                                        Style="{StaticResource BodyStrongTextBlockStyle}" />
+                                    <Slider
+                                        Minimum="0"
+                                        Maximum="1"
+                                        Value="0.32"
+                                        StepFrequency="0.01"
+                                        Tag="grain"
+                                        AutomationProperties.Name="Sand grain"
+                                        ValueChanged="GardenSlider_ValueChanged" />
+                                    <TextBlock
+                                        Text="Grain size"
+                                        Style="{StaticResource BodyStrongTextBlockStyle}" />
+                                    <Slider
+                                        Minimum="0.5"
+                                        Maximum="3"
+                                        Value="1.12"
+                                        StepFrequency="0.01"
+                                        Tag="grainSize"
+                                        AutomationProperties.Name="Grain size"
+                                        ValueChanged="GardenSlider_ValueChanged" />
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                        <Ellipse
+                            Width="32"
+                            Height="32"
+                            Fill="{ThemeResource GardenSandSecondaryBrush}"
+                            Stroke="{ThemeResource GardenSandForegroundBrush}"
+                            StrokeThickness="2" />
+                    </Button>
+                    <Button
+                        Style="{StaticResource GardenBottomPillButtonStyle}"
+                        MinWidth="64"
+                        Height="48"
+                        Margin="0,-4"
+                        Padding="0"
+                        AutomationProperties.Name="Rake settings"
+                        ToolTipService.ToolTip="Rake">
+                        <Button.Flyout>
+                            <Flyout
+                                Placement="Top"
+                                FlyoutPresenterStyle="{StaticResource GardenBottomFlyoutPresenterStyle}">
+                                <StackPanel MinWidth="280" Padding="8" Spacing="12">
+                                    <TextBlock
+                                        Text="Brush width"
+                                        Style="{StaticResource BodyStrongTextBlockStyle}" />
+                                    <Slider
+                                        Minimum="6"
+                                        Maximum="80"
+                                        Value="20"
+                                        Tag="width"
+                                        AutomationProperties.Name="Brush width"
+                                        ValueChanged="GardenSlider_ValueChanged" />
+                                    <Grid ColumnSpacing="16">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Text="Lines"
+                                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                                            VerticalAlignment="Center" />
+                                        <ComboBox
+                                            Grid.Column="1"
+                                            MinWidth="88"
+                                            CornerRadius="{StaticResource OverlayCornerRadius}"
+                                            SelectedIndex="2"
+                                            AutomationProperties.Name="Rake lines"
+                                            SelectionChanged="GardenLines_SelectionChanged">
+                                            <ComboBoxItem Content="1" Tag="1" />
+                                            <ComboBoxItem Content="3" Tag="3" />
+                                            <ComboBoxItem Content="5" Tag="5" />
+                                            <ComboBoxItem Content="7" Tag="7" />
+                                            <ComboBoxItem Content="9" Tag="9" />
+                                        </ComboBox>
+                                    </Grid>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                        <Grid
+                            Width="58"
+                            Height="48">
+                            <Grid.Clip>
+                                <RectangleGeometry Rect="0,0,58,48" />
+                            </Grid.Clip>
+                            <Image
+                                x:Name="GardenRakeImage"
+                                Width="58"
+                                Height="69"
+                                Margin="0,-18,0,0"
+                                VerticalAlignment="Top"
+                                Source="ms-appx:///Assets/ZenGarden/5.png"
+                                Stretch="Uniform" />
+                        </Grid>
+                    </Button>
+                    <Button
+                        x:Name="RockStackButton"
+                        Style="{StaticResource GardenBottomPillButtonStyle}"
+                        MinWidth="64"
+                        Height="56"
+                        Margin="0,-4"
+                        Padding="0"
+                        AutomationProperties.Name="Add rock"
+                        ToolTipService.ToolTip="Add rock"
+                        Click="RockStackButton_Click"
+                        LayoutUpdated="RockStackButton_LayoutUpdated">
+                        <Grid
+                            Width="56"
+                            Height="52">
+                            <Border
+                                x:Name="RockDropHint"
+                                Margin="1"
+                                Background="{ThemeResource GardenSandSubtleFillBrush}"
+                                BorderBrush="{ThemeResource ShellSelectedBrush}"
+                                BorderThickness="1.5"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Opacity="0"
+                                IsHitTestVisible="False" />
+                            <Canvas
+                                Width="48"
+                                Height="48"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                <Ellipse
+                                    Canvas.Left="6"
+                                    Canvas.Top="42"
+                                    Width="38"
+                                    Height="5"
+                                    Fill="#240B1720"
+                                    IsHitTestVisible="False" />
+                                <Image
+                                    x:Name="RockBottomImage"
+                                    Canvas.Left="3"
+                                    Canvas.Top="26"
+                                    Canvas.ZIndex="1"
+                                    Width="42"
+                                    Height="22"
+                                    Source="ms-appx:///Assets/ZenGarden/Rock1.svg"
+                                    Stretch="Uniform">
+                                    <Image.RenderTransform>
+                                        <TranslateTransform x:Name="RockBottomTranslation" />
+                                    </Image.RenderTransform>
+                                </Image>
+                                <Image
+                                    x:Name="RockMiddleImage"
+                                    Canvas.Left="9"
+                                    Canvas.Top="15"
+                                    Canvas.ZIndex="2"
+                                    Width="31"
+                                    Height="16"
+                                    Source="ms-appx:///Assets/ZenGarden/Rock3.svg"
+                                    Stretch="Uniform">
+                                    <Image.RenderTransform>
+                                        <TranslateTransform x:Name="RockMiddleTranslation" />
+                                    </Image.RenderTransform>
+                                </Image>
+                                <Image
+                                    x:Name="RockTopImage"
+                                    Canvas.Left="14"
+                                    Canvas.Top="4"
+                                    Canvas.ZIndex="3"
+                                    Width="19"
+                                    Height="12"
+                                    Source="ms-appx:///Assets/ZenGarden/Rock2.svg"
+                                    Stretch="Uniform">
+                                    <Image.RenderTransform>
+                                        <TranslateTransform x:Name="RockTopTranslation" />
+                                    </Image.RenderTransform>
+                                </Image>
+                            </Canvas>
+                        </Grid>
+                    </Button>
+                    <Border
+                        Width="1"
+                        Height="32"
+                        Margin="4,0"
+                        Background="{ThemeResource GardenSandDividerBrush}" />
+                    <Button
+                        Style="{StaticResource GardenBottomPillButtonStyle}"
+                        AutomationProperties.Name="Clear lines"
+                        ToolTipService.ToolTip="Clear lines"
+                        Tag="clear"
+                        Click="GardenAction_Click">
+                        <FontIcon Glyph="&#xEA99;" FontSize="24" />
+                    </Button>
+                    <Button
+                        Style="{StaticResource GardenBottomPillButtonStyle}"
+                        AutomationProperties.Name="Reset garden"
+                        ToolTipService.ToolTip="Reset garden"
+                        Tag="reset"
+                        Click="GardenAction_Click">
+                        <FontIcon Glyph="&#xE777;" FontSize="24" />
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

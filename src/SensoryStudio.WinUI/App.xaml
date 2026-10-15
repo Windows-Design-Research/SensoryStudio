@@ -1,0 +1,227 @@
+<Application
+    x:Class="SensoryStudio.WinUI.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <muxc:XamlControlsResources />
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="ShellBackgroundBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="ShellSurfaceBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="ShellCardBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="ShellCardHoverBrush" Color="#F4F4F4" />
+                    <SolidColorBrush x:Key="ShellTextPrimaryBrush" Color="#272320" />
+                    <SolidColorBrush x:Key="ShellTextSecondaryBrush" Color="#65605C" />
+                    <SolidColorBrush x:Key="ShellDividerBrush" Color="#E3E5EA" />
+                    <SolidColorBrush x:Key="ShellSubtleFillBrush" Color="#F1F1F1" />
+                    <SolidColorBrush x:Key="ShellSelectedBrush" Color="#272320" />
+                    <SolidColorBrush x:Key="ShellSelectedTextBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="GardenSandSurfaceBrush" Color="#80F7F3EC" />
+                    <SolidColorBrush x:Key="GardenSandBorderBrush" Color="#663E352F" />
+                    <SolidColorBrush x:Key="GardenSandForegroundBrush" Color="#FF3E352F" />
+                    <SolidColorBrush x:Key="GardenSandSecondaryBrush" Color="#FFEDE8E0" />
+                    <SolidColorBrush x:Key="GardenSandSubtleFillBrush" Color="#263E352F" />
+                    <SolidColorBrush x:Key="GardenSandDividerBrush" Color="#663E352F" />
+                    <SolidColorBrush x:Key="CompactPillSurfaceBrush" Color="#80F7F3EC" />
+                    <SolidColorBrush x:Key="CompactPillForegroundBrush" Color="#FF3E352F" />
+                    <SolidColorBrush x:Key="CompactPillBorderBrush" Color="#663E352F" />
+                    <SolidColorBrush x:Key="CompactPillSubtleFillBrush" Color="#263E352F" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="ShellBackgroundBrush" Color="#181716" />
+                    <SolidColorBrush x:Key="ShellSurfaceBrush" Color="#201F1E" />
+                    <SolidColorBrush x:Key="ShellCardBrush" Color="#272625" />
+                    <SolidColorBrush x:Key="ShellCardHoverBrush" Color="#32302F" />
+                    <SolidColorBrush x:Key="ShellTextPrimaryBrush" Color="#F6F3EF" />
+                    <SolidColorBrush x:Key="ShellTextSecondaryBrush" Color="#C7C1BA" />
+                    <SolidColorBrush x:Key="ShellDividerBrush" Color="#3D3A37" />
+                    <SolidColorBrush x:Key="ShellSubtleFillBrush" Color="#2B2927" />
+                    <SolidColorBrush x:Key="ShellSelectedBrush" Color="#F6F3EF" />
+                    <SolidColorBrush x:Key="ShellSelectedTextBrush" Color="#272320" />
+                    <SolidColorBrush x:Key="GardenSandSurfaceBrush" Color="#B8000000" />
+                    <SolidColorBrush x:Key="GardenSandBorderBrush" Color="#66FFFFFF" />
+                    <SolidColorBrush x:Key="GardenSandForegroundBrush" Color="#FFF7F3EC" />
+                    <SolidColorBrush x:Key="GardenSandSecondaryBrush" Color="#FFC5A779" />
+                    <SolidColorBrush x:Key="GardenSandSubtleFillBrush" Color="#26FFFFFF" />
+                    <SolidColorBrush x:Key="GardenSandDividerBrush" Color="#66FFFFFF" />
+                    <SolidColorBrush x:Key="CompactPillSurfaceBrush" Color="#F21E1E1E" />
+                    <SolidColorBrush x:Key="CompactPillForegroundBrush" Color="#FFFFFFFF" />
+                    <SolidColorBrush x:Key="CompactPillBorderBrush" Color="#66FFFFFF" />
+                    <SolidColorBrush x:Key="CompactPillSubtleFillBrush" Color="#26FFFFFF" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <StaticResource x:Key="ShellBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
+                    <StaticResource x:Key="ShellSurfaceBrush" ResourceKey="SystemColorWindowColorBrush" />
+                    <StaticResource x:Key="ShellCardBrush" ResourceKey="SystemColorButtonFaceColorBrush" />
+                    <StaticResource x:Key="ShellCardHoverBrush" ResourceKey="SystemColorHighlightColorBrush" />
+                    <StaticResource x:Key="ShellTextPrimaryBrush" ResourceKey="SystemColorWindowTextColorBrush" />
+                    <StaticResource x:Key="ShellTextSecondaryBrush" ResourceKey="SystemColorWindowTextColorBrush" />
+                    <StaticResource x:Key="ShellDividerBrush" ResourceKey="SystemColorWindowTextColorBrush" />
+                    <StaticResource x:Key="ShellSubtleFillBrush" ResourceKey="SystemColorButtonFaceColorBrush" />
+                    <StaticResource x:Key="ShellSelectedBrush" ResourceKey="SystemColorHighlightColorBrush" />
+                    <StaticResource x:Key="ShellSelectedTextBrush" ResourceKey="SystemColorHighlightTextColorBrush" />
+                    <StaticResource x:Key="GardenSandSurfaceBrush" ResourceKey="SystemColorButtonFaceColorBrush" />
+                    <StaticResource x:Key="GardenSandBorderBrush" ResourceKey="SystemColorButtonTextColorBrush" />
+                    <StaticResource x:Key="GardenSandForegroundBrush" ResourceKey="SystemColorButtonTextColorBrush" />
+                    <StaticResource x:Key="GardenSandSecondaryBrush" ResourceKey="SystemColorButtonTextColorBrush" />
+                    <StaticResource x:Key="GardenSandSubtleFillBrush" ResourceKey="SystemColorHighlightColorBrush" />
+                    <StaticResource x:Key="GardenSandDividerBrush" ResourceKey="SystemColorButtonTextColorBrush" />
+                    <StaticResource x:Key="CompactPillSurfaceBrush" ResourceKey="SystemColorButtonFaceColorBrush" />
+                    <StaticResource x:Key="CompactPillForegroundBrush" ResourceKey="SystemColorButtonTextColorBrush" />
+                    <StaticResource x:Key="CompactPillBorderBrush" ResourceKey="SystemColorButtonTextColorBrush" />
+                    <StaticResource x:Key="CompactPillSubtleFillBrush" ResourceKey="SystemColorHighlightColorBrush" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+            <Style x:Key="CaptionTextBlockStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+
+            <Style x:Key="BodyStrongTextBlockStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+
+            <Style x:Key="SubtitleTextBlockStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+
+            <Style x:Key="TitleTextBlockStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="28" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+
+            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
+            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
+
+            <Style x:Key="ShellNavigationButtonStyle" TargetType="RadioButton">
+                <Setter Property="Foreground" Value="{ThemeResource ShellTextPrimaryBrush}" />
+                <Setter Property="MinHeight" Value="36" />
+                <Setter Property="Padding" Value="12,8" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="RadioButton">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="HoverBackground.Opacity" Value="1" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.Opacity" Value="0.8" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.Opacity" Value="0.4" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="CheckStates">
+                                        <VisualState x:Name="Unchecked" />
+                                        <VisualState x:Name="Checked">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.Background" Value="{ThemeResource ShellSelectedBrush}" />
+                                                <Setter Target="Presenter.Foreground" Value="{ThemeResource ShellSelectedTextBrush}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Indeterminate" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border
+                                    x:Name="HoverBackground"
+                                    MinHeight="{TemplateBinding MinHeight}"
+                                    Background="{ThemeResource ShellSubtleFillBrush}"
+                                    CornerRadius="12"
+                                    Opacity="0" />
+                                <Border
+                                    x:Name="Root"
+                                    MinHeight="{TemplateBinding MinHeight}"
+                                    Background="Transparent"
+                                    CornerRadius="12"
+                                    Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter
+                                        x:Name="Presenter"
+                                        Content="{TemplateBinding Content}"
+                                        Foreground="{TemplateBinding Foreground}"
+                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalContentAlignment="Center" />
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="ShellFilterButtonStyle" TargetType="RadioButton">
+                <Setter Property="Foreground" Value="{ThemeResource ShellTextPrimaryBrush}" />
+                <Setter Property="MinHeight" Value="32" />
+                <Setter Property="Padding" Value="12,4" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="RadioButton">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.Opacity" Value="0.72" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.Opacity" Value="0.6" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled" />
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="CheckStates">
+                                        <VisualState x:Name="Unchecked" />
+                                        <VisualState x:Name="Checked">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.Background" Value="{ThemeResource ShellSelectedBrush}" />
+                                                <Setter Target="Presenter.Foreground" Value="{ThemeResource ShellSelectedTextBrush}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Indeterminate" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border
+                                    x:Name="Root"
+                                    MinHeight="{TemplateBinding MinHeight}"
+                                    Background="Transparent"
+                                    CornerRadius="16"
+                                    Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter
+                                        x:Name="Presenter"
+                                        Content="{TemplateBinding Content}"
+                                        Foreground="{TemplateBinding Foreground}"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center" />
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="ShellPrimaryButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="{ThemeResource ShellSelectedBrush}" />
+                <Setter Property="Foreground" Value="{ThemeResource ShellSelectedTextBrush}" />
+                <Setter Property="Padding" Value="16,8" />
+                <Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

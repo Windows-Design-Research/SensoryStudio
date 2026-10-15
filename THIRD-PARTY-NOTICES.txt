@@ -1,0 +1,205 @@
+SENSORY STUDIO - THIRD-PARTY COMPONENT NOTICES
+============================================
+
+This inventory covers components in the self-contained Release application
+publish directories for Windows x64 and ARM64. Component presence was checked
+against publish source items and the resulting files, not just direct package
+references. It does not establish that every included component is exercised
+by the application.
+
+This two-experience source snapshot retains the original dependency versions
+and supplier documents. Ambient MP3s, LiquidEther, and bubble/string audio and
+exclusive thumbnails have been removed. Source-only sharing does not authorize
+redistribution of the retained code, garden assets, or compiled payload.
+
+The accompanying ThirdPartyNotices directory contains unmodified supplier
+license and notice documents. Paths below are relative to that directory.
+sources.csv records each document's package/version or download URL and SHA-256.
+Supplier notice bundles are preserved in full and can describe additional
+components not used by this application.
+
+These documents apply to their respective components. They do not license
+Sensory Studio's own source code, artwork, or audio, and do not constitute
+legal, privacy, security, or release approval. The source-license decision
+remains open. This inventory must not be treated as distribution clearance.
+
+
+1. WINDOWS APP SDK
+------------------
+
+Microsoft.WindowsAppSDK 2.4.0 supplies the umbrella license and notice bundle.
+The publish payload includes files from:
+
+  Microsoft.WindowsAppSDK.AI                    2.4.4
+  Microsoft.WindowsAppSDK.DWrite                2.1.0
+  Microsoft.WindowsAppSDK.Foundation            2.3.9
+  Microsoft.WindowsAppSDK.InteractiveExperiences 2.1.6
+  Microsoft.WindowsAppSDK.Search                2.4.4
+  Microsoft.WindowsAppSDK.Widgets               2.0.5
+  Microsoft.WindowsAppSDK.WinUI                 2.3.6
+
+Documents:
+  WindowsAppSDK\license.txt
+  WindowsAppSDK\NOTICE.txt
+  WinUI\NOTICE.txt
+
+The package license is titled MICROSOFT SOFTWARE LICENSE TERMS / MICROSOFT
+WINDOWS APP SDK; do not substitute a generic MIT license for these binaries.
+The listed packages supply byte-identical license.txt files, retained once.
+The umbrella NOTICE.txt is also identical to the notice in
+Microsoft.WindowsAppSDK.Base 2.0.4 and Microsoft.WindowsAppSDK.Runtime 2.4.0.
+The separate WinUI root NOTICE.txt is retained as supplied.
+
+This includes self-contained runtime binaries, projections, resources, and
+transitive AI/search/widget components even where Sensory Studio does not
+directly call those features. x64 and ARM64 have different native files and
+some different resource sets, covered by the same supplier documents.
+
+
+2. WINDOWS ML RUNTIME
+--------------------
+
+Microsoft.Windows.AI.MachineLearning 2.1.74
+
+Documents:
+  WindowsML\license.txt
+  WindowsML\ThirdPartyNotices.txt
+  WindowsML\WindowsAppSDK-ML-license.txt
+
+The package license is titled MICROSOFT SOFTWARE LICENSE TERMS / Microsoft
+Windows ML Runtime. Its published files include DirectML.dll, onnxruntime.dll,
+Microsoft.ML.OnnxRuntime.dll, Microsoft.Windows.AI.MachineLearning.dll, and
+Microsoft.Windows.AI.MachineLearning.Projection.dll. Preserve the full supplier
+bundle rather than inferring one license for every embedded dependency.
+
+The Microsoft.WindowsAppSDK.ML 2.1.74 bridge package supplies a distinct,
+combined Windows App SDK / Windows ML license. It is retained separately as
+WindowsAppSDK-ML-license.txt, not deduplicated with the runtime license.
+Its ThirdPartyNotices.txt is identical to the runtime package's notice bundle.
+
+
+3. WEBVIEW2 SDK COMPONENTS
+-------------------------
+
+Microsoft.Web.WebView2 1.0.3719.77
+
+Documents:
+  WebView2\LICENSE.txt
+  WebView2\NOTICE.txt
+
+These cover the package's SDK components, including WebView2Loader.dll,
+Microsoft.Web.WebView2.Core.dll, and the separately copied
+Microsoft.Web.WebView2.Core.Projection.dll. The supplied LICENSE.txt is the
+Microsoft copyright and three-condition redistribution text; it is not
+replaced with an assumed MIT license.
+
+The separately installed Microsoft Edge WebView2 browser runtime is not
+bundled in these application publish directories. Its distribution and terms
+are separate from this SDK-component inventory.
+
+
+4. .NET RUNTIME
+---------------
+
+Microsoft.NETCore.App.Runtime.win-x64   8.0.31
+Microsoft.NETCore.App.Runtime.win-arm64 8.0.31
+
+Documents:
+  DotNet\LICENSE.TXT
+  DotNet\THIRD-PARTY-NOTICES.TXT
+
+The runtime package license is MIT, with additional third-party notices in
+the supplied bundle. Both architecture packages supply byte-identical copies
+of these documents, retained once. The self-contained app includes the .NET
+runtime, libraries, native runtime support files, and a generated .NET apphost.
+
+
+5. SYSTEM.NUMERICS.TENSORS
+-------------------------
+
+System.Numerics.Tensors 9.0.0
+
+Documents:
+  Tensors\LICENSE.TXT
+  Tensors\THIRD-PARTY-NOTICES.TXT
+
+The package declares MIT and supplies both documents. Its third-party notice
+bundle differs from the .NET 8 runtime bundle and is retained separately.
+
+
+6. WINDOWS SDK .NET PROJECTIONS
+-------------------------------
+
+Microsoft.Windows.SDK.NET.Ref 10.0.26100.86
+
+Published files:
+  Microsoft.Windows.SDK.NET.dll
+  WinRT.Runtime.dll
+
+Document:
+  WindowsSDK\sdk_license.rtf
+
+This package declares its license URL as https://aka.ms/WinSDKLicenseURL.
+The accompanying RTF is the unmodified document retrieved from that URL's
+Microsoft download destination. The exact destination and content hash are
+recorded in sources.csv. Do not infer the binary package's terms solely from
+the licenses of related source repositories.
+
+
+7. SCOPE AND EXCLUSIONS
+-----------------------
+
+The following resolved packages do not contribute distinct payload files to
+the inspected publish item sets. Their relevant umbrella documents are
+accounted for above; this is not a claim that their transitive dependencies
+are absent:
+
+  Microsoft.WindowsAppSDK         2.4.0
+  Microsoft.WindowsAppSDK.Base    2.0.4
+  Microsoft.WindowsAppSDK.Runtime 2.4.0
+  Microsoft.WindowsAppSDK.ML      2.1.74
+
+Build tooling is not application payload:
+
+  Microsoft.Windows.SDK.BuildTools      10.0.26100.4654
+  Microsoft.Windows.SDK.BuildTools.MSIX 1.7.251221100
+
+Their tool-only notice documents are not represented as application runtime
+notices. Likewise, Microsoft.WindowsAppSDK.WinUI's tools\NOTICE.txt covers
+build tools rather than the inspected runtime payload.
+
+Downloaded ASP.NET Core and Windows Desktop runtime packs are not included
+merely because restore acquired them: the inspected application publishes
+do not redistribute those framework packs. Removed legacy WPF, React, Vite,
+and esbuild components are not part of the current application.
+
+The previously hidden Pomodoro and Pulse Runner experiences have been removed.
+Microsoft.Graphics.Win2D, used only by Pomodoro's renderer, is no longer a
+dependency or part of either clean publish payload. Its previously unresolved
+binary-license link is therefore not a requirement for the current payload.
+This does not retroactively clear older binaries or historical source versions.
+
+This inventory does not cover the installer engine, build-machine software,
+separately installed Windows components, or optional future downloads.
+Recheck any final installer/bootstrapper and release artifact separately.
+
+
+8. ARTWORK AND AUDIO
+--------------------
+
+Component notices above do not determine ownership or redistribution rights
+for application artwork and audio. In-house audio provenance has been
+reported by the project owner; it is not assigned a third-party license here.
+
+MAINTENANCE
+-----------
+
+When dependencies, runtime patches, publish settings, or bundled assets change,
+publish both architectures, inspect the actual payload and source items,
+refresh supplier documents from the resolved packages, and update this
+inventory and sources.csv together. Preserve complete supplier text and verify
+copied files by SHA-256. A NuGet graph alone is not proof of runtime inclusion.
+
+Keep this file and the entire ThirdPartyNotices directory with the application.
+The project copies both into build and local publish output. This source-only
+snapshot does not provide an installer or an approved binary release.

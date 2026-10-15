@@ -1,0 +1,12 @@
+schemaVersion: 1.0.0
+providers:
+- provider: InventoryAsCode
+  version: 1.0.0
+  metadata:
+    isProduction: true
+    accountableOwners:
+      service: 18901e37-7ea4-411b-a501-8a4deeea55cb
+    routing:
+      defaultAreaPath:
+        org: MSFTDEVICES
+        path: Devices\SW\FrontierFoundry

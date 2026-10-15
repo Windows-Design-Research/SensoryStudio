@@ -1,0 +1,5 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Preserve supplier documents byte-for-byte, including their recorded hashes.
+ThirdPartyNotices/** -text

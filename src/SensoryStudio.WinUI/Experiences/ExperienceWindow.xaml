@@ -1,0 +1,97 @@
+<Window
+    x:Class="SensoryStudio.WinUI.Experiences.ExperienceWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Sensory Studio">
+    <Grid Background="{ThemeResource ShellBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid
+            x:Name="Toolbar"
+            Padding="16,0,8,0"
+            Background="{ThemeResource ShellSurfaceBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                x:Name="TitleText"
+                Style="{StaticResource BodyStrongTextBlockStyle}"
+                Foreground="{ThemeResource ShellTextPrimaryBrush}"
+                VerticalAlignment="Center" />
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                <Button
+                    x:Name="PauseButton"
+                    AutomationProperties.Name="Pause or resume"
+                    ToolTipService.ToolTip="Pause"
+                    Click="PauseButton_Click">
+                    <FontIcon x:Name="PauseIcon" Glyph="&#xE769;" FontSize="14" />
+                </Button>
+                <Button
+                    AutomationProperties.Name="Open experience settings"
+                    ToolTipService.ToolTip="Settings">
+                    <Button.Flyout>
+                        <Flyout Placement="Bottom">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="MinWidth" Value="0" />
+                                    <Setter Property="Width" Value="168" />
+                                    <Setter Property="Padding" Value="12" />
+                                    <Setter Property="CornerRadius" Value="24" />
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <StackPanel Spacing="8">
+                                <StackPanel Orientation="Horizontal" Spacing="32">
+                                    <TextBlock
+                                        Width="72"
+                                        Text="Sound"
+                                        VerticalAlignment="Center" />
+                                    <ToggleSwitch
+                                        x:Name="SoundToggle"
+                                        MinWidth="0"
+                                        Width="40"
+                                        OnContent=""
+                                        OffContent=""
+                                        Toggled="SoundToggle_Toggled" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="32">
+                                    <TextBlock
+                                        Width="72"
+                                        Text="Haptics"
+                                        VerticalAlignment="Center" />
+                                    <ToggleSwitch
+                                        x:Name="HapticsToggle"
+                                        MinWidth="0"
+                                        Width="40"
+                                        OnContent=""
+                                        OffContent=""
+                                        Toggled="HapticsToggle_Toggled" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                    <FontIcon Glyph="&#xE713;" FontSize="14" />
+                </Button>
+                <Button
+                    AutomationProperties.Name="Close experience"
+                    ToolTipService.ToolTip="Close"
+                    Click="CloseButton_Click">
+                    <FontIcon Glyph="&#xE8BB;" FontSize="14" />
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Border
+            Grid.Row="1"
+            Background="{ThemeResource ShellBackgroundBrush}"
+            BorderBrush="{ThemeResource ShellDividerBrush}"
+            BorderThickness="1,1,1,0">
+            <ContentPresenter x:Name="ExperiencePresenter" />
+        </Border>
+    </Grid>
+</Window>

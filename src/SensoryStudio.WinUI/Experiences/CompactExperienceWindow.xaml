@@ -1,0 +1,140 @@
+<Window
+    x:Class="SensoryStudio.WinUI.Experiences.CompactExperienceWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Sensory Studio">
+    <Border
+        Background="Transparent">
+        <Grid
+            x:Name="Root"
+            Background="Transparent"
+            PointerMoved="Root_PointerMoved"
+            PointerExited="Root_PointerExited">
+            <ContentPresenter x:Name="ExperiencePresenter" />
+
+            <Grid
+                x:Name="WindowBoundaryCue"
+                Canvas.ZIndex="4"
+                Opacity="0"
+                IsHitTestVisible="False">
+                <Border
+                    x:Name="WindowBoundaryGlow"
+                    BorderBrush="{ThemeResource ShellTextPrimaryBrush}"
+                    BorderThickness="3"
+                    Opacity="0.18" />
+                <Border
+                    x:Name="WindowBoundaryOutline"
+                    BorderBrush="{ThemeResource ShellTextPrimaryBrush}"
+                    BorderThickness="1" />
+            </Grid>
+
+            <Border
+                x:Name="ControlsRevealSurface"
+                Canvas.ZIndex="2"
+                Height="72"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                PointerMoved="Root_PointerMoved" />
+
+            <Border
+                x:Name="GrabHandle"
+                Canvas.ZIndex="3"
+                Width="40"
+                Height="4"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Margin="0,34,0,0"
+                Background="{ThemeResource ShellTextSecondaryBrush}"
+                CornerRadius="2"
+                Opacity="0.72"
+                PointerPressed="GrabHandle_PointerPressed" />
+
+            <Border
+                x:Name="ControlsPill"
+                Canvas.ZIndex="3"
+                Width="40"
+                Height="13.1765"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Margin="8"
+                Padding="0"
+                Background="{ThemeResource CompactPillSurfaceBrush}"
+                BorderBrush="{ThemeResource CompactPillBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="6.5882"
+                Opacity="0"
+                RenderTransformOrigin="0.5,0.5"
+                IsHitTestVisible="False">
+                <Border.RenderTransform>
+                    <CompositeTransform
+                        x:Name="PillTransform"
+                        TranslateY="21.4118" />
+                </Border.RenderTransform>
+                <Border.Resources>
+                    <Style x:Key="CompactPillButtonStyle" TargetType="Button">
+                        <Setter Property="Foreground" Value="{ThemeResource CompactPillForegroundBrush}" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
+                        <Setter Property="MinWidth" Value="40" />
+                        <Setter Property="MinHeight" Value="40" />
+                        <Setter Property="Padding" Value="8" />
+                    </Style>
+                </Border.Resources>
+                <Grid
+                    x:Name="PillContent"
+                    Opacity="0">
+                    <Border Padding="12,8">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Button
+                                x:Name="TimerTrack"
+                                Style="{StaticResource CompactPillButtonStyle}"
+                                VerticalAlignment="Center"
+                                AutomationProperties.Name="Session time remaining"
+                                ToolTipService.ToolTip="Choose session duration"
+                                Click="TimerTrack_Click">
+                                <Button.Flyout>
+                                    <MenuFlyout x:Name="DurationComboBox" Placement="Bottom">
+                                        <ToggleMenuFlyoutItem Text="∞" Tag="0" Click="DurationItem_Click" />
+                                        <ToggleMenuFlyoutItem Text="1 min" Tag="1" Click="DurationItem_Click" />
+                                        <ToggleMenuFlyoutItem Text="3 min" Tag="3" Click="DurationItem_Click" />
+                                        <ToggleMenuFlyoutItem Text="5 min" Tag="5" Click="DurationItem_Click" />
+                                    </MenuFlyout>
+                                </Button.Flyout>
+                                <TextBlock
+                                    x:Name="DurationText"
+                                    Text="3m"
+                                    Style="{StaticResource BodyStrongTextBlockStyle}" />
+                            </Button>
+                            <Button
+                                Style="{StaticResource CompactPillButtonStyle}"
+                                AutomationProperties.Name="Pause or resume"
+                                ToolTipService.ToolTip="Pause"
+                                Click="PauseButton_Click">
+                                <FontIcon x:Name="PauseIcon" Glyph="&#xE769;" FontSize="14" Foreground="{ThemeResource ShellTextPrimaryBrush}" />
+                            </Button>
+                            <Button
+                                Style="{StaticResource CompactPillButtonStyle}"
+                                AutomationProperties.Name="Return to main window"
+                                ToolTipService.ToolTip="Return to main window"
+                                Click="RestoreButton_Click">
+                                <FontIcon Glyph="&#xE8A7;" FontSize="14" Foreground="{ThemeResource ShellTextPrimaryBrush}" />
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                    <Rectangle
+                        x:Name="PillCountdownStroke"
+                        Margin="1"
+                        RadiusX="27"
+                        RadiusY="27"
+                        Stroke="{ThemeResource CompactPillForegroundBrush}"
+                        StrokeThickness="2"
+                        StrokeDashCap="Round"
+                        Opacity="0"
+                        IsHitTestVisible="False" />
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

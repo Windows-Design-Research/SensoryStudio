@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="SessionCompleteDialogTitle" xml:space="preserve">
+    <value>Session complete</value>
+  </data>
+  <data name="SessionCompleteDialogMessage" xml:space="preserve">
+    <value>Your experience has finished.</value>
+  </data>
+  <data name="SessionCompleteDialogOkButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="SettingsNoticeTitle" xml:space="preserve">
+    <value>Sensory Studio settings</value>
+  </data>
+  <data name="SettingsRecoveredMessage" xml:space="preserve">
+    <value>Some saved settings could not be used and were reset to their defaults. Other valid settings were kept where possible.
+
+The original settings were preserved at:
+{0}</value>
+  </data>
+  <data name="SettingsReadFailedMessage" xml:space="preserve">
+    <value>Your saved settings could not be read. Sensory Studio will use defaults for this session and will not overwrite the original file. Changes will not be saved until the file can be read after restarting the app.
+
+Details: {0}</value>
+  </data>
+  <data name="SettingsRecoveryFailedMessage" xml:space="preserve">
+    <value>Some saved settings could not be used, and a recovery copy could not be created. Sensory Studio will use recovered settings for this session but will not overwrite the original file. Changes will not be saved until recovery succeeds after restarting the app.
+
+Details: {0}</value>
+  </data>
+  <data name="SettingsSaveFailedMessage" xml:space="preserve">
+    <value>Your changes could not be saved. They still apply for this session, but the previously saved settings have not been replaced. Check the settings folder's permissions and available disk space, then try saving another change.
+
+Details: {0}</value>
+  </data>
+</root>
